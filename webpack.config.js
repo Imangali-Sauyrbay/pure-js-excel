@@ -30,7 +30,7 @@ module.exports = {
 
   output: {
     filename: filename('js', 'js'),
-    publicPath: '/',
+    publicPath: isProd ? './' : '/',
     path: path.resolve(__dirname, 'dist'),
   },
 
@@ -62,10 +62,17 @@ module.exports = {
       },
     }),
     new CopyPlugin({
-      patterns: [{
-        from: path.resolve(__dirname, 'src', 'favicon.ico'),
-        to: path.resolve(__dirname, 'dist'),
-      }]}),
+      patterns: [
+        {
+          from: path.resolve(__dirname, 'src', 'favicon.ico'),
+          to: path.resolve(__dirname, 'dist'),
+        },
+        {
+          from: path.resolve(__dirname, 'src', 'fx.svg'),
+          to: path.resolve(__dirname, 'dist'),
+        },
+      ],
+    }),
     new MiniCssExtractPlugin({
       filename: filename('css', 'styles'),
     }),
