@@ -60,7 +60,7 @@ function toCell(row, state) {
     data-id = "${id}"
     data-value="${content}"
     style="width: ${width}; ${style}">
-    ${parse(content, id, findByIdInState(state.dataState))}
+    ${content && parse(content, [id], findByIdInState(state.dataState))}
     </div>`;
   };
 }

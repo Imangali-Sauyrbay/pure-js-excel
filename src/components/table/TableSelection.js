@@ -36,13 +36,13 @@ export class TableSelection {
   clear() {
     this.group.forEach(($el) => {
       $el.removeClass(TableSelection.className);
-      $el.text(parse($el.data.value, $el.id(), this.getCellValue));
+      $el.text(this.startParse($el.data.value, $el.id(), this.getCellValue));
     });
     this.group = [];
   }
 
-  getCellValue(id) {
-    return this.getCell(id).text() || 0;
+  getCellValue(id, ids) {
+    return this.startParse(this.getCell(id).text(), ids, this.getCellValue) || 0;
   }
 
   getCell(id) {
@@ -57,9 +57,13 @@ export class TableSelection {
     Object.keys(store).forEach((key) => {
       if (this.selectedIds.includes(key)) return;
       const $cell = this.getCell(key);
-      const value = parse(store[key], key, findByIdInState(store));
+      const value = this.startParse(store[key], key, findByIdInState(store));
       $cell.text() !== value ? $cell.text(value) : null;
     });
+  }
+
+  startParse(text, id, cb) {
+    return parse(text, [id], cb);
   }
 
   selectGroup($group = []) {

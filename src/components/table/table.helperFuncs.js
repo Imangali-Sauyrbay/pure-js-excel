@@ -40,7 +40,7 @@ export function nextSelection(keyCode, {row, col}, MAX_ROW = 19, MAX_COL = 25) {
 }
 
 export function findByIdInState(state) {
-  return function getVal(id) {
-    return parse(state[id], id, getVal) || 0;
+  return function getVal(id, ids) {
+    return parse(state[id], ids, getVal) || 0;
   };
 }
