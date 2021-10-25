@@ -1,10 +1,11 @@
 import { DomListener } from '@core/DomListener';
 
-export class ExelComponent extends DomListener {
+export class ExcelComponent extends DomListener {
   constructor($el, options = {}) {
     super($el, options.listeners);
-    this.name = options.name || '';
-
+    this.name = options.name || null;
+    this.subscribes = options.subscribes || [];
+    this.store = options.store;
     this.emmiter = options.emmiter;
     this.unsubs = [];
 
@@ -24,6 +25,20 @@ export class ExelComponent extends DomListener {
   $on(event, listener) {
     const unsub = this.emmiter.subscribe(event, listener);
     this.unsubs.push(unsub);
+  }
+
+  $dispatch(action) {
+    if (typeof action === 'function') {
+      action(this.store.dispatch, this.store.getState);
+    } else {
+      this.store.dispatch(action);
+    }
+  }
+
+  storeChanged() {}
+
+  isWathcing(key) {
+    return this.subscribes.includes(key);
   }
 
   init() {

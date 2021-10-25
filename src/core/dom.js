@@ -15,7 +15,8 @@ class Dom {
       place = 'value';
     }
 
-    if (typeof value === 'string') {
+    if (typeof value === 'string' ||
+        typeof value === 'number') {
       this.$el[place] = String(value);
     }
 
@@ -23,7 +24,7 @@ class Dom {
   }
 
   html(html) {
-    if (typeof html === 'string') {
+    if (typeof html !== 'undefined') {
       this.$el.innerHTML = html;
       return this;
     }
@@ -84,6 +85,13 @@ class Dom {
     return this;
   }
 
+  getStyles(styles = []) {
+    return styles.reduce((res, style) => {
+      res[style] = this.$el.style[style];
+      return res;
+    }, {});
+  }
+
   focus() {
     this.$el.focus();
     return this;
@@ -114,6 +122,14 @@ class Dom {
   removeAttr(attrName) {
     if (!attrName) throw new Error('Missing attribute name!');
     this.$el.removeAttribute(attrName);
+    return this;
+  }
+
+  attr(name, value) {
+    if (!name) throw new Error('Missing attribute name!');
+    if (!value) return this.$el.getAttribute(name);
+
+    this.$el.setAttribute(name, value);
     return this;
   }
 }

@@ -1,5 +1,5 @@
 export function capitalizeFirst(string) {
-  if (typeof string !== 'string') return '';
+  if (typeof string !== 'string') throw new Error('Arg must be a string');
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
@@ -24,4 +24,50 @@ export function matrix($target, $current) {
     cols.forEach((col) => acc.push(`${row}:${col}`));
     return acc;
   }, []);
+}
+
+export function storage(key, data = null) {
+  if (!data) {
+    return JSON.parse(localStorage.getItem(key));
+  }
+
+  localStorage.setItem(key, JSON.stringify(data));
+}
+
+storage.getKey = function() {
+  const STORAGE_KEY = 'excel-state';
+  return STORAGE_KEY;
+};
+
+export function isEqual(a, b) {
+  if (typeof a === 'object' && typeof b === 'object') {
+    return JSON.stringify(a) === JSON.stringify(b);
+  }
+
+  return a === b;
+}
+
+export function camelToDash(camel) {
+  return camel.replace(/([A-Z])/g, (g) => `-${g[0].toLowerCase()}`);
+}
+
+export function toInlineStyles(styles = {}) {
+  return Object.keys(styles)
+      .map((key) => `${camelToDash(key)}: ${Array.isArray(styles[key]) ?
+        styles[key].join(' ')
+        : styles[key]
+      }`)
+      .join(';');
+}
+
+export function debounce(callback, wait = 400) {
+  let timeout = null;
+  return function(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      callback(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
 }
