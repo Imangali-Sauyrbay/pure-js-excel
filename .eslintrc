@@ -11,6 +11,7 @@
         "operator-linebreak": "off",
         "require-jsdoc":"off",
         "linebreak-style":"off",
-        "max-len":  [2, 90, 4, {"ignoreUrls": true}]
+        "max-len":  [2, 90, 4, {"ignoreUrls": true}],
+        "no-unused-vars": "warn"
     }
 }

@@ -1,9 +1,15 @@
+import { parse } from '@core/parse';
+
 export function shouldResize(event) {
   return event.target.dataset.resize;
 }
 
 export function shouldSelect(event) {
   return event.target.dataset.type === 'cell';
+}
+
+export function shouldSelectLine(event) {
+  return event.target.dataset.select;
 }
 
 export function nextSelection(keyCode, {row, col}, MAX_ROW = 19, MAX_COL = 25) {
@@ -31,4 +37,10 @@ export function nextSelection(keyCode, {row, col}, MAX_ROW = 19, MAX_COL = 25) {
   }
 
   return `[data-id="${row}:${col}"]`;
+}
+
+export function findByIdInState(state) {
+  return function getVal(id) {
+    return parse(state[id], id, getVal) || 0;
+  };
 }

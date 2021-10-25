@@ -5,15 +5,17 @@
     text-align: center;
     position: relative;
     display: inline-block;
-    color: rgba(0,0,0,.7);
+    color: rgba(0, 0, 0, .7);
     user-select: none;
 
-    & > span {
+    &>span {
         font-size: 18px;
     }
 
-    &:active, &.active {
+    &:active,
+    &.active {
         color: $color;
+        text-shadow: 0 0 3px #ccc, 0 0 3px #ccc;
     }
 
     &:hover {

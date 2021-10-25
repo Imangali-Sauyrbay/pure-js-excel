@@ -1,22 +1,62 @@
-import { ExelComponent } from '@core/ExelComponent';
+import { ExcelStateComponent } from '@core/ExcelStateComponent';
+import { createToolbar } from './toolbar.template';
+import { $ } from '@core/dom';
+import { defaultStyles } from '@/constants';
 
-export class Toolbar extends ExelComponent {
+export class Toolbar extends ExcelStateComponent {
   static className = 'excel__toolbar';
   constructor($root, options) {
     super($root, {
       name: 'ToolBar',
+      listeners: ['click'],
+      subscribes: ['currentStyles'],
       ...options,
     });
   }
+
+  prepare() {
+    this.initState(defaultStyles);
+  }
+
+  storeChanged(changes) {
+    this.setState(changes.currentStyles);
+  }
+
+  get template() {
+    return createToolbar(this.state);
+  }
   toHTML() {
-    return `
-    <div class="button"><span class="material-icons">format_align_left</span></div>
-    <div class="button"><span class="material-icons">format_align_center</span></div>
-    <div class="button"><span class="material-icons">format_align_right</span></div>
-    <div class="button"><span class="material-icons">format_align_justify</span></div>
-    <div class="button"><span class="material-icons">format_bold</span></div>
-    <div class="button"><span class="material-icons">format_italic</span></div>
-    <div class="button"><span class="material-icons">format_underlined</span></div>
-    <div class="button"><span class="material-icons">strikethrough_s</span></div>`;
+    return this.template;
+  }
+
+  onClick(event) {
+    const $taret = $(event.target);
+    if ($taret.data.type === 'button') {
+      event.stopPropagation();
+
+      const value = JSON.parse($taret.data.value);
+
+      const key = Object.keys(value)[0];
+      const style = value[key];
+
+      let result;
+
+      if (Array.isArray(this.state[key])) {
+        let arr = [...this.state[key]];
+
+        if (arr.includes(style)) {
+          arr = arr.filter((el) => el !== style);
+        } else {
+          arr.push(style);
+        }
+
+        arr = arr.filter((el) => el !== 'none');
+        result = {[key]: arr.join(' ') || 'none'};
+      } else {
+        result = {[key]: style};
+      }
+
+      this.$emit('toolbar:applyStyle', result);
+    }
   }
 }

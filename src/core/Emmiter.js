@@ -5,10 +5,10 @@ export class Emmiter {
 
   emit(event, ...args) {
     if (!Array.isArray(this.listeners[event])) {
-      throw new Error(`Event ${event} does not exist!`);
+      console.warn(`Event ${event} subscribers does not exist!`);
     }
 
-    this.listeners[event].forEach((ls) => {
+    (this.listeners[event] || []).forEach((ls) => {
       ls(...args);
     });
   }

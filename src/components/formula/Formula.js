@@ -1,12 +1,13 @@
-import { ExelComponent } from '@core/ExelComponent';
+import { ExcelComponent } from '@core/ExcelComponent';
 import { $ } from '@core/dom';
 
-export class Formula extends ExelComponent {
+export class Formula extends ExcelComponent {
   static className = 'excel__formula';
   constructor($root, options) {
     super($root, {
       name: 'Formula',
       listeners: ['input', 'keydown'],
+      subscribes: ['currentText'],
       ...options,
     });
   }
@@ -21,9 +22,13 @@ export class Formula extends ExelComponent {
 
     this.$formula = this.$root.query('#formula');
 
-    this.$on('table:input', (text) => {
+    this.$on('table:select', (text) => {
       this.$formula.text(text);
     });
+  }
+
+  storeChanged(store) {
+    this.$formula.text(store.currentText);
   }
 
   onInput(event) {
