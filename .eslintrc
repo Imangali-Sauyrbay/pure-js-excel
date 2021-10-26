@@ -13,6 +13,7 @@
         "linebreak-style":"off",
         "max-len":  [2, 90, 4, {"ignoreUrls": true}],
         "no-unused-vars": "warn",
-        "no-useless-escape": "off"
+        "no-useless-escape": "off",
+        "no-debugger": "warn"
     }
 }

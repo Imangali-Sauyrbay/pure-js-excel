@@ -42,7 +42,7 @@ export class TableSelection {
   }
 
   getCellValue(id, ids) {
-    return this.startParse(this.getCell(id).text(), ids, this.getCellValue) || 0;
+    return this.startParse(this.getCell(id).data.value, ids, this.getCellValue) || 0;
   }
 
   getCell(id) {
@@ -63,7 +63,8 @@ export class TableSelection {
   }
 
   startParse(text, id, cb) {
-    return parse(text, [id], cb);
+    if (!Array.isArray(id)) id = [id];
+    return parse(text, id, cb);
   }
 
   selectGroup($group = []) {

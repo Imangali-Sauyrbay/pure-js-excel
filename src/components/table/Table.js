@@ -16,7 +16,7 @@ import { getLine } from './table.select-line';
 export class Table extends ExcelComponent {
   static className = 'excel__table';
   static rowsCount = 20;
-  static colsCount = 'Z'.charCodeAt() - 'A'.charCodeAt();
+  static colsCount = 'Z'.charCodeAt() - 'A'.charCodeAt() + 1;
   constructor($root, options) {
     super($root, {
       name: 'Table',
