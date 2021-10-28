@@ -26,17 +26,21 @@ export function matrix($target, $current) {
   }, []);
 }
 
+let STORAGE_KEY = 'excel';
+
 export function storage(key, data = null) {
   if (!data) {
     return JSON.parse(localStorage.getItem(key));
   }
-
   localStorage.setItem(key, JSON.stringify(data));
 }
 
 storage.getKey = function() {
-  const STORAGE_KEY = 'excel-state';
   return STORAGE_KEY;
+};
+
+storage.setKey = function(key) {
+  STORAGE_KEY = key;
 };
 
 export function isEqual(a, b) {
@@ -70,4 +74,8 @@ export function debounce(callback, wait = 400) {
     clearTimeout(timeout);
     timeout = setTimeout(later, wait);
   };
+}
+
+export function clone(obj) {
+  return Object.assign({}, obj);
 }

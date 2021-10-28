@@ -1,4 +1,4 @@
-import { storage } from '@core/utils';
+import { storage, clone } from '@core/utils';
 import { defaultStyles, defaultTitle } from '@/constants';
 
 const defaultState = {
@@ -9,9 +9,11 @@ const defaultState = {
   stylesState: {},
   currentStyles: defaultStyles,
   currentText: '',
+  date: new Date().toJSON(),
 };
 
 function normalizeState(state) {
+  if (typeof state !== 'object') return null;
   return {
     ...state,
     currentStyles: defaultStyles,
@@ -19,4 +21,6 @@ function normalizeState(state) {
   };
 }
 
-export const initialState = normalizeState(storage(storage.getKey()) || defaultState);
+export function initialState() {
+  return normalizeState(storage(storage.getKey()) || clone(defaultState));
+}
