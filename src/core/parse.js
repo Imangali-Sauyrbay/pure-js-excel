@@ -5,11 +5,7 @@ const ERROR_MESSGE = 'Parsing error';
 export function parse(text, currentId = [], getValue) {
   if (typeof text !== 'string') return text;
   if (text.startsWith('=')) {
-    text = text.slice(1);
-
-    while (isNaN(text.charAt(text.length - 1)) || text.charAt(text.length - 1) === ' ') {
-      text = text.slice(0, -1);
-    }
+    text = removeSymbolsFromEnd(text.slice(1));
 
     currentId.forEach(
         (id) => {
@@ -19,7 +15,7 @@ export function parse(text, currentId = [], getValue) {
         }
     );
 
-    if (isContainNull(text, ERROR_MESSGE)) return ERROR_MESSGE;
+    if (isContainNull(text) || isErrorMessage(text, ERROR_MESSGE)) return ERROR_MESSGE;
 
     text = text.replace(/([A-Z][0-9]+)/g, (id) => {
       if (id.slice(1) === '0' || id.slice(1) > Table.rowsCount) return null;
@@ -31,7 +27,7 @@ export function parse(text, currentId = [], getValue) {
       return val.startsWith('=') ? val.splice(1) : val;
     });
 
-    if (isContainNull(text, ERROR_MESSGE)) return ERROR_MESSGE;
+    if (isContainNull(text) || isErrorMessage(text, ERROR_MESSGE)) return ERROR_MESSGE;
 
     try {
       return eval(text);
@@ -57,13 +53,24 @@ function getValueFromId(id) {
 }
 
 function fromIdToLetter(id) {
-  return String.fromCharCode(Number(id) + 'A'.charCodeAt());
+  return String.fromCharCode(+id + 'A'.charCodeAt());
 }
 
 function fromLetterToId(letter) {
   return String(letter.charCodeAt() - 'A'.charCodeAt());
 }
 
-function isContainNull(text, errorMessge) {
-  return (/[null|=]/.test(text) || text === errorMessge);
+function isContainNull(text) {
+  return /[null|=]/.test(text);
+}
+
+function isErrorMessage(text, errorMessge) {
+  return text === errorMessge;
+}
+
+function removeSymbolsFromEnd(text) {
+  while (isNaN(text.charAt(text.length - 1)) || text.charAt(text.length - 1) === ' ') {
+    text = text.slice(0, -1);
+  }
+  return text;
 }

@@ -3,6 +3,7 @@ import { TABLE_RESIZE,
   CURRENT_CELL_STYLES,
   APPLY_CELL_STYLE,
   CHANGE_TITLE,
+  UPDATA_DATE,
 } from './types';
 
 export function tableResize(data) {
@@ -37,5 +38,12 @@ export function changeTitle(payload) {
   return {
     type: CHANGE_TITLE,
     payload,
+  };
+}
+
+export function updateDate() {
+  return {
+    type: UPDATA_DATE,
+    payload: new Date().toJSON(),
   };
 }

@@ -94,5 +94,6 @@ module.exports = {
     port: 3000,
     hot: isDev,
     open: false,
+    historyApiFallback: true,
   },
 };

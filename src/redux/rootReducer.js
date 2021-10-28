@@ -3,6 +3,7 @@ import { TABLE_RESIZE,
   CURRENT_CELL_STYLES,
   APPLY_CELL_STYLE,
   CHANGE_TITLE,
+  UPDATA_DATE,
 } from './types';
 
 export function rootReducer(state = {}, action) {
@@ -68,6 +69,10 @@ export function rootReducer(state = {}, action) {
 
     case CHANGE_TITLE: {
       return {...state, title: action.payload};
+    }
+
+    case UPDATA_DATE: {
+      return {...state, date: action.payload};
     }
     default: return state;
   }
