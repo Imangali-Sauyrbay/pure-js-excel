@@ -12,6 +12,7 @@ describe('createStore:', () => {
     store = createStore(reducer, initialState);
     handler = jest.fn();
   });
+
   test('should return store object', () => {
     expect(store).toBeDefined();
     expect(store.subscribe).toBeDefined();
@@ -64,4 +65,3 @@ describe('createStore:', () => {
     });
   });
 });
-

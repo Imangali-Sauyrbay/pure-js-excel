@@ -57,10 +57,10 @@
         border-top: none;
         border-left: none;
         color: #222;
-        white-space: nowrap;
+        white-space: break-spaces;
         outline: none;
         overflow: hidden;
-
+        word-wrap: break-word;
     }
 
     & .selected {
@@ -74,7 +74,7 @@
         position: absolute;
         right: 0;
         bottom: 0;
-        background-color: $primary-blue-color;
+        background-color: darken($primary-gray-color, 15%);
         opacity: 0;
         z-index: 100;
 
@@ -86,9 +86,10 @@
     & .select-line {
         position: absolute;
         left: 3px;
+        padding: 0 2px;
         top: 0;
         font-size: 16px;
-        background-color: $primary-blue-color;
+        background-color: $primary-gray-color;
         opacity: 0;
         z-index: 100;
 

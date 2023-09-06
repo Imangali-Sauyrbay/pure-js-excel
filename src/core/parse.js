@@ -1,7 +1,9 @@
 import { Table } from '@components/table/Table';
+import MathExpEval from 'math-expression-evaluator';
 
 const ERROR_MESSGE = 'Parsing error';
 
+const mathExpEval = new MathExpEval();
 export function parse(text, currentId = [], getValue) {
   if (typeof text !== 'string') return text;
   if (text.startsWith('=')) {
@@ -24,13 +26,15 @@ export function parse(text, currentId = [], getValue) {
       currentId.push(nextId);
 
       const val = String(getValue(nextId, currentId));
-      return val.startsWith('=') ? val.splice(1) : val;
+      return val.startsWith('=') ? val.slice(1) : val;
     });
 
     if (isContainNull(text) || isErrorMessage(text, ERROR_MESSGE)) return ERROR_MESSGE;
 
     try {
-      return eval(text);
+      const lexed = mathExpEval.lex(text);
+      const postfixed = mathExpEval.toPostfix(lexed);
+      return mathExpEval.postfixEval(postfixed);
     } catch (err) {
       return err.message;
     }
